@@ -27,16 +27,10 @@ export default function BottombarPlugin() {
 
   return (
     <div className="toolbar bottombar" ref={toolbarRef}>
-      <button
-        className="toolbar-item spaced"
-        aria-label="Import File"
-      >
+      <button className="toolbar-item spaced" aria-label="Import File">
         <i className="format paperclip" /> {/* Add appropriate icon */}
       </button>
-      <button
-        className="toolbar-item spaced"
-        aria-label="Add Emoji"
-      >
+      <button className="toolbar-item spaced" aria-label="Add Emoji">
         <i className="format smile" /> {/* Add appropriate icon */}
       </button>
       <Divider />
@@ -55,10 +49,7 @@ export default function BottombarPlugin() {
       >
         <i className="format at-symbol" /> {/* Add appropriate icon */}
       </button>
-      <button
-        className="toolbar-item spaced"
-        aria-label="Invite users"
-      >
+      <button className="toolbar-item spaced" aria-label="Invite users">
         <i className="format invite" /> {/* Add appropriate icon */}
       </button>
     </div>

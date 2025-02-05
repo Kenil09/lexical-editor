@@ -51,10 +51,10 @@ a {
  *
  */
 
- body {
+body {
   margin: 0;
   background: #eee;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular',
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, ".SFNSText-Regular",
     sans-serif;
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
@@ -304,12 +304,14 @@ h1 {
   padding: 0;
   margin: 0;
   margin-left: 16px;
+  list-style-type: decimal;
 }
 
 .editor-list-ul {
   padding: 0;
   margin: 0;
   margin-left: 16px;
+  list-style-type: disc;
 }
 
 .editor-listitem {
@@ -371,12 +373,13 @@ pre::-webkit-scrollbar-thumb {
 
 .toolbar {
   display: flex;
-  margin-bottom: 1px;
+  margin-top: 1px;
   background: #fff;
   padding: 4px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   vertical-align: middle;
+  z-index: 0;
 }
 
 .bottombar {
@@ -476,6 +479,12 @@ i.bold {
 i.italic {
   background-image: url(images/icons/type-italic.svg);
 }
+i.ol {
+  background-image: url(images/icons/list-ol.svg);
+}
+i.ul {
+  background-image: url(images/icons/list-ul.svg);
+}
 
 i.underline {
   background-image: url(images/icons/type-underline.svg);
@@ -516,9 +525,6 @@ i.smile {
 i.invite {
   background-image: url(images/icons/invite.svg);
 }
-
-
-
 
 /* Lexical editor playground styles */
 

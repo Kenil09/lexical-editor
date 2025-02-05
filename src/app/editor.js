@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -7,35 +7,29 @@
  *
  */
 
-import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
-import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {ContentEditable} from '@lexical/react/LexicalContentEditable';
-import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
-import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
-import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
-import {
-  $isTextNode,
-  isHTMLElement,
-  ParagraphNode,
-  TextNode,
-} from 'lexical';
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { $isTextNode, isHTMLElement, ParagraphNode, TextNode } from "lexical";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 
-import theme from './theme';
-import ToolbarPlugin from './plugins/ToolbarPlugin';
-import TreeViewPlugin from './plugins/TreeViewPlugin';
-import {parseAllowedColor, parseAllowedFontSize} from './styleConfig';
-import BottombarPlugin from './plugins/BottombarPlugin';
-import MentionsPlugin from './plugins/MentionsPlugin';
-import { MentionNode } from './nodes/MentionNode';
-import { OnChangePlugin } from './plugins/OnChangePlugin';
-import { useState } from 'react';
+import theme from "./theme";
+import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import TreeViewPlugin from "./plugins/TreeViewPlugin";
+import { parseAllowedColor, parseAllowedFontSize } from "./styleConfig";
+import BottombarPlugin from "./plugins/BottombarPlugin";
+import MentionsPlugin from "./plugins/MentionsPlugin";
+import { MentionNode } from "./nodes/MentionNode";
+import { OnChangePlugin } from "./plugins/OnChangePlugin";
+import { useState } from "react";
+import { ListItemNode, ListNode } from "@lexical/list";
 
-const placeholder = 'Enter some rich text...';
+const placeholder = "Enter some rich text...";
 
-const removeStylesExportDOM = (
-  editor,
-  target,
-) => {
+const removeStylesExportDOM = (editor, target) => {
   const output = target.exportDOM(editor);
   if (output && isHTMLElement(output.element)) {
     // Remove all inline styles and classes if the element is an HTMLElement
@@ -45,10 +39,10 @@ const removeStylesExportDOM = (
       output.element,
       ...output.element.querySelectorAll('[style],[class],[dir="ltr"]'),
     ]) {
-      el.removeAttribute('class');
-      el.removeAttribute('style');
-      if (el.getAttribute('dir') === 'ltr') {
-        el.removeAttribute('dir');
+      el.removeAttribute("class");
+      el.removeAttribute("style");
+      if (el.getAttribute("dir") === "ltr") {
+        el.removeAttribute("dir");
       }
     }
   }
@@ -63,17 +57,17 @@ const exportMap = new Map([
 const getExtraStyles = (element) => {
   // Parse styles from pasted input, but only if they match exactly the
   // sort of styles that would be produced by exportDOM
-  let extraStyles = '';
+  let extraStyles = "";
   const fontSize = parseAllowedFontSize(element.style.fontSize);
   const backgroundColor = parseAllowedColor(element.style.backgroundColor);
   const color = parseAllowedColor(element.style.color);
-  if (fontSize !== '' && fontSize !== '15px') {
+  if (fontSize !== "" && fontSize !== "15px") {
     extraStyles += `font-size: ${fontSize};`;
   }
-  if (backgroundColor !== '' && backgroundColor !== 'rgb(255, 255, 255)') {
+  if (backgroundColor !== "" && backgroundColor !== "rgb(255, 255, 255)") {
     extraStyles += `background-color: ${backgroundColor};`;
   }
-  if (color !== '' && color !== 'rgb(0, 0, 0)') {
+  if (color !== "" && color !== "rgb(0, 0, 0)") {
     extraStyles += `color: ${color};`;
   }
   return extraStyles;
@@ -104,7 +98,7 @@ const constructImportMap = () => {
           }
           const extraStyles = getExtraStyles(element);
           if (extraStyles) {
-            const {forChild} = output;
+            const { forChild } = output;
             return {
               ...output,
               forChild: (child, parent) => {
@@ -130,8 +124,8 @@ const editorConfig = {
     export: exportMap,
     import: constructImportMap(),
   },
-  namespace: 'Airlient Editor',
-  nodes: [ParagraphNode, TextNode, MentionNode],
+  namespace: "Airlient Editor",
+  nodes: [ParagraphNode, TextNode, MentionNode, ListItemNode, ListNode],
   onError(error) {
     throw error;
   },
@@ -139,7 +133,6 @@ const editorConfig = {
 };
 
 export default function App() {
-
   const [editorState, setEditorState] = useState();
 
   function onChange(editorState) {
@@ -167,13 +160,14 @@ export default function App() {
             }
             ErrorBoundary={LexicalErrorBoundary}
           />
+          <ListPlugin />
           <HistoryPlugin />
           <AutoFocusPlugin />
           <MentionsPlugin />
           {/* <TreeViewPlugin /> */}
         </div>
         <BottombarPlugin />
-      </div>  
+      </div>
     </LexicalComposer>
   );
 }
