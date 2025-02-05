@@ -8,14 +8,10 @@
 
 import {
   $applyNodeReplacement,
-
   TextNode,
 } from 'lexical';
 
-
-function $convertMentionElement(
-  domNode,
-) {
+function $convertMentionElement(domNode) {
   const textContent = domNode.textContent;
   const mentionName = domNode.getAttribute('data-lexical-mention-name');
 
@@ -35,29 +31,33 @@ function $convertMentionElement(
 const mentionStyle = 'background-color: rgba(24, 119, 232, 0.2)';
 export class MentionNode extends TextNode {
   __mention;
+  __mentionedUserId;
 
   static getType() {
     return 'mention';
   }
 
   static clone(node) {
-    return new MentionNode(node.__mention, node.__text, node.__key);
+    return new MentionNode(node.__mention, node.__text, node.__mentionedUserId, node.__key);
   }
+
   static importJSON(serializedNode) {
-    return $createMentionNode(serializedNode.mentionName).updateFromJSON(
+    return $createMentionNode(serializedNode.mentionName, serializedNode.mentionedUserId).updateFromJSON(
       serializedNode,
     );
   }
 
-  constructor(mentionName, text, key) {
+  constructor(mentionName, text, mentionedUserId, key) {
     super(text ?? mentionName, key);
     this.__mention = mentionName;
+    this.__mentionedUserId = mentionedUserId;
   }
 
   exportJSON() {
     return {
       ...super.exportJSON(),
       mentionName: this.__mention,
+      mentionedUserId: this.__mentionedUserId,
     };
   }
 
@@ -66,12 +66,14 @@ export class MentionNode extends TextNode {
     dom.style.cssText = mentionStyle;
     dom.className = 'mention';
     dom.spellcheck = false;
+    dom.setAttribute('data-user-id', this.__mentionedUserId);
     return dom;
   }
 
   exportDOM() {
     const element = document.createElement('span');
     element.setAttribute('data-lexical-mention', 'true');
+    element.setAttribute('data-user-id', this.__mentionedUserId);
     if (this.__text !== this.__mention) {
       element.setAttribute('data-lexical-mention-name', this.__mention);
     }
@@ -106,17 +108,12 @@ export class MentionNode extends TextNode {
   }
 }
 
-export function $createMentionNode(
-  mentionName,
-  textContent,
-) {
-  const mentionNode = new MentionNode(mentionName, (textContent = mentionName));
+export function $createMentionNode(mentionName, mentionedUserId, textContent) {
+  const mentionNode = new MentionNode(mentionName, textContent, mentionedUserId);
   mentionNode.setMode('segmented').toggleDirectionless();
   return $applyNodeReplacement(mentionNode);
 }
 
-export function $isMentionNode(
-  node,
-) {
+export function $isMentionNode(node) {
   return node instanceof MentionNode;
 }

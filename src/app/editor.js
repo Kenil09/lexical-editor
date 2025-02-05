@@ -130,7 +130,7 @@ const editorConfig = {
     export: exportMap,
     import: constructImportMap(),
   },
-  namespace: 'React.js Demo',
+  namespace: 'Airlient Editor',
   nodes: [ParagraphNode, TextNode, MentionNode],
   onError(error) {
     throw error;

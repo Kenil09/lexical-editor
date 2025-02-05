@@ -621,7 +621,8 @@ export default function NewMentionsPlugin() {
   const onSelectOption = useCallback(
     (selectedOption, nodeToReplace, closeMenu) => {
       editor.update(() => {
-        const mentionNode = $createMentionNode(`@${selectedOption.name}`);
+        // TODO: Remove static Id
+        const mentionNode = $createMentionNode(`@${selectedOption.name}`, 12);
         if (nodeToReplace) {
           nodeToReplace.replace(mentionNode);
         }
