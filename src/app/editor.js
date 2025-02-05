@@ -172,7 +172,7 @@ export default function App() {
           <MentionsPlugin />
           {/* <TreeViewPlugin /> */}
         </div>
-        {/* <BottombarPlugin /> */}
+        <BottombarPlugin />
       </div>  
     </LexicalComposer>
   );

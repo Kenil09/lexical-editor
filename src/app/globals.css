@@ -505,6 +505,20 @@ i.at-symbol {
   background-image: url(images/icons/at-symbol.svg);
 }
 
+i.paperclip {
+  background-image: url(images/icons/paperclip.svg);
+}
+
+i.smile {
+  background-image: url(images/icons/smile.svg);
+}
+
+i.invite {
+  background-image: url(images/icons/invite.svg);
+}
+
+
+
 
 /* Lexical editor playground styles */
 
